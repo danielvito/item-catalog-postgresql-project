@@ -1,0 +1,47 @@
+{% extends "main.html" %}
+
+{% block content %}
+
+<!-- READ -->
+{% if item != None and type_op == 1 %}
+
+<h2>{{item.name}}</h2>
+<p>{{ _('description') }}: {{ item.description }}</p>
+<p>{{ _('category') }}: {{ item.category.name }}</p>
+<p>{{ _('price') }}: {{ item.price }}</p>
+<p>{{ _('brand') }}: {{ item.brand.name }}</p>
+<p>{{ _('user') }}: {{ item.user.name }}</p>
+<p>{{ _('created') }}: {{ item.created }}</p>
+
+  {% if 'user_id' in session and (item.user_id == None or item.user_id == session['user_id']) %}
+    <div class="btn-group">
+      <a class="btn btn-sm btn-outline-secondary" href="{{ url_for('show_categoryitem_update', categoryitem_id=item.id) }}">{{ _('edit_item') }}</a>
+      <a class="btn btn-sm btn-outline-secondary" href="{{ url_for('show_categoryitem_delete', categoryitem_id=item.id) }}">{{ _('delete_item') }}</a>
+    </div>
+  {% endif %}
+
+<!-- NEW OR UPDATE -->
+{% elif (type_op == 2 or (type_op == 3 and item != None)) %}
+  {% from "_formhelpers.html" import render_field %}
+
+    {% if type_op == 2 %}
+      <h3>{{ _('add_categoryitem') }}</h3>
+    {% else %}
+      <h3>{{ _('edit_item') }}</h3>
+    {% endif %}
+<form method="post">
+    {{ render_field(form.name) }}
+    {{ render_field(form.description) }}
+    {{ render_field(form.price) }}
+    {{ render_field(form.category_id) }}
+    {{ render_field(form.brand_id) }}
+    <button type="submit" class="btn btn-primary">{{_('save')}}</button>
+</form>
+
+{% else %}
+
+<p>{{ _('invalid_option') }}</p>
+
+{% endif %}
+
+{% endblock %}

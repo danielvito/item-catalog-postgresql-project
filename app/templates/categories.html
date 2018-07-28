@@ -1,0 +1,39 @@
+{% extends "main.html" %}
+
+{% block content %}
+
+    <div class="row">
+        <div class="col-sm">
+            <h3>{{ _('categories') }}</h3>
+                <div class="list-group">
+                {% for category in categories %}
+                    <a
+                        class="list-group-item list-group-item-action {{ 'active' if category.id == selected_category_id }}"
+                        href = "{{ url_for('show_categories', category_id = category.id) }}">
+                        {{category.name}}
+                        <span class="badge badge-primary badge-pill">{{ cat_count[category.id] }}</span>
+                    </a>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="col-sm">
+            <h3>{{ _('items') }}</h3>
+            {% if selected_category_id == None %}
+            <p class="">{{ _('select_one_category') }}</p>
+            {% elif items.count() == 0 %}
+            <p class="">{{ _('no_found_rows') }}</p>
+            {% endif %}
+            <div class="list-group">
+                {% for item in items %}
+                <a class="list-group-item list-group-item-action list-group-item-secondary" href="{{ url_for('show_categoryitem_read', categoryitem_id=item.id) }}">
+                    {{item.name}} ({{item.category.name}} / {{item.brand.name}})
+                </a>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="col-sm">
+            <h3><a href="{{ url_for('show_categoryitem_new') }}">{{ _('add_categoryitem') }}</a></h3>
+        </div>
+    </div>
+
+{% endblock %}

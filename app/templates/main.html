@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>{{ _('item_catalog_project') }}</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+    <link rel="stylesheet" href= "{{ url_for('static', filename='css/sticky-footer-navbar.css') }}">
+  </head>
+  <body>
+    <header class="header">
+
+        <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+          <a class="navbar-brand" href="{{ url_for('show_categories') }}">{{ _('item_catalog_project') }}</a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+    
+          <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+            <ul class="navbar-nav mr-auto">
+              <li class="nav-item active">
+                <a class="nav-link" href="{{ url_for('show_categories') }}">{{_('catalog_nav')}}</a>
+              </li>
+              <li class="nav-item active">
+                <a class="nav-link" href="{{ url_for('catagoryItemsJSON') }}">{{_('catalog_json')}}</a>
+              </li>
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="http://example.com" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ _('language') }}: {{ languages[cur_lang] }}</a>
+                <div class="dropdown-menu" aria-labelledby="dropdown01">
+                  {% for language in languages %}
+                  <a class="dropdown-item" href="{{ url_for('set_site_language', language=language) }}"> {{ languages[language] }}</a>
+                  {% endfor %}
+                </div>
+              </li>
+            </ul>
+            <ul class="navbar-nav flex-row ml-md-auto d-none d-md-flex">
+              <li class="nav-item"><a class="nav-link" href="https://www.linkedin.com/in/daniel-de-vito-silveira-17829025/" target="_blank">LinkedIn</a></li>
+              <li class="nav-item"><a class="nav-link" href="https://twitter.com/ddvitos" target="_blank">Twitter</a></li>
+              <li class="nav-item"><a class="nav-link" href="mailto:daniel_vito@yahoo.com.br" target="_blank">{{ _('contact_me') }}</a></li>
+            </ul>
+            
+            {% if session['username'] %}
+              <span class="navbar-text text-primary">{{session['username']}}</span>
+              <button class="btn btn-success my-2 my-sm-0" type="button" id="btn_logout">{{ _('logout') }}</button>
+            {% else %}
+              <button class="btn btn-success my-2 my-sm-0" type="button" id="btn_login">{{ _('login') }}</button>
+            {% endif %}
+          </div>
+        </nav>
+      
+    </header>
+    <main role="main" class="container">
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for message in messages %}
+            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+              {{ message }}
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            {% endfor %}
+        {% endif %}
+        {% endwith %}
+      <div class="container">
+        {% block content %}{% endblock %}
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="container">
+        <span class="text-muted">
+            <p>{{ _('item_catalog_project') }}</p>
+        </span>
+      </div>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/main.js') }}"></script>
+  </body>
+</html>
