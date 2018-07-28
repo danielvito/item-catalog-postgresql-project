@@ -18,6 +18,7 @@ In order to run this project you need python 3.x installed.
 ### Project Extensions
 
 ```sh
+pip3 install wheel
 pip3 install Flask
 pip3 install Flask-Babel
 pip3 install flask-sqlalchemy
